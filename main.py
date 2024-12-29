@@ -12,10 +12,9 @@ def get_bitcoin_price_binance():
     if response.status_code == 200:
         data = response.json()
         price = float(data["price"])
-        return f"O preço atual do Bitcoin é ${price:.2f} USD"
+        return {'price': price}
     else:
-        return f"Erro na API: {response.status_code} - {response.text}"
-
+        return None
 
 # Chama a função e exibe o preço
 if __name__  == "__main__":

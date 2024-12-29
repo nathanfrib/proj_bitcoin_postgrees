@@ -58,5 +58,5 @@ if __name__  == "__main__":
         save_to_database(conn, result)
         print("Dados salvos no banco: ", result)
 
-        # Aguarda 10 segundo para o próximo registro
+        # Aguarda 10 segundos para o próximo registro
         time.sleep(10)

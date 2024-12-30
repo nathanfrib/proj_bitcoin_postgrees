@@ -1,29 +1,29 @@
-# Monitoramento de Preço do Bitcoin
+# Monitoramento de Preços do Bitcoin
 
-Este projeto é uma aplicação em Python desenvolvida para monitorar o preço do Bitcoin utilizando a API pública da Binance. Os dados obtidos são registrados em um banco de dados PostgreSQL para análise e visualização posterior.
+Este projeto é uma aplicação em Python desenvolvida para monitorar o preço do Bitcoin utilizando a API pública da Binance. Os dados obtidos são registrados em um banco de dados SQLite3 para análise e visualização posterior.
 
 ## Funcionalidades
 
 - **Monitoramento em Tempo Real:** Busca os preços do Bitcoin em intervalos regulares usando a API pública da Binance.
-- **Registro em Banco de Dados:** Armazena os dados de preço em um banco de dados PostgreSQL para armazenamento persistente.
+- **Registro em Banco de Dados:** Armazena os dados de preço em um banco de dados SQLite3 para armazenamento persistente.
 - **Intervalos Configuráveis:** Permite a personalização dos intervalos de monitoramento.
-- **Tratamento de Erros:** Inclui tratamento robusto de erros para operações na API e no banco de dados.
+
+!["Bitcoin ETL"](image/etl_bitcoin.png)
 
 ## Pré-requisitos
 
 Antes de executar o projeto, certifique-se de ter os seguintes requisitos instalados:
 
 - **Python 3.8+**
-- **PostgreSQL**
-- Bibliotecas Python: `requests`, `psycopg2`, `dotenv`
+- Bibliotecas Python: `requests`, `sqlite3`, `pandas`
 
 ## Instruções de Configuração
 
 ### 1. Clone o Repositório
 
 ```bash
-git clone https://github.com/seuusuario/monitoramento-preco-bitcoin.git
-cd monitoramento-preco-bitcoin
+git clone https://github.com/nathanfrib/proj_bitcoin.git
+cd proj_bitcoin
 ```
 
 ### 2. Instale as Dependências
@@ -31,32 +31,11 @@ cd monitoramento-preco-bitcoin
 Crie um ambiente virtual e instale os pacotes Python necessários:
 
 ```bash
-python -m venv venv
-source venv/bin/activate  # No Windows use `venv\Scripts\activate`
+python -m venv .venv
+source .venv/bin/Activate  
 pip install -r requirements.txt
 ```
-
-### 3. Configure as Variáveis de Ambiente
-
-Crie um arquivo `.env` no diretório raiz e especifique as seguintes variáveis:
-
-```env
-DB_HOST=seu_host_postgresql
-DB_PORT=sua_porta_postgresql
-DB_NAME=seu_nome_banco_de_dados
-DB_USER=seu_usuario_banco_de_dados
-DB_PASSWORD=sua_senha_banco_de_dados
-```
-
-### 4. Configure o Banco de Dados
-
-Execute o script SQL fornecido para configurar as tabelas necessárias:
-
-```bash
-psql -U seu_usuario_banco_de_dados -d seu_nome_banco_de_dados -f setup.sql
-```
-
-### 5. Execute a Aplicação
+### 3. Execute a Aplicação
 
 Inicie a aplicação com:
 
@@ -66,19 +45,15 @@ python main.py
 
 ## Como Usar
 
-1. O script buscará o preço do Bitcoin periodicamente e registrará os dados no banco de dados PostgreSQL.
+1. O script buscará o preço do Bitcoin periodicamente e registrará os dados no banco de dados SQLite3.
 2. Você pode consultar o banco de dados para analisar as tendências de preço ou integrar os dados em outras aplicações.
 
 ## Estrutura do Projeto
 
 ```plaintext
-monitoramento-preco-bitcoin/
-├── main.py          # Script principal para buscar e registrar os preços
-├── db.py            # Conexão e operações no banco de dados
-├── api.py           # Lógica de interação com a API
+proj_bitcoin/
+├── main.py          # Script principal
 ├── requirements.txt # Dependências do Python
-├── setup.sql        # Script SQL para configuração do banco de dados
-├── .env.example     # Exemplo de arquivo de variáveis de ambiente
 └── README.md        # Documentação do projeto
 ```
 
@@ -87,8 +62,8 @@ monitoramento-preco-bitcoin/
 O projeto utiliza as seguintes bibliotecas Python:
 
 - `requests`: Para realizar requisições HTTP à API da Binance.
-- `psycopg2`: Para interagir com o banco de dados PostgreSQL.
-- `dotenv`: Para carregar variáveis de ambiente.
+- `sqlite3`: Para configurar e armazenar os dados em um banco SQL.
+- `pandas`: Para manipulação e transformação de dados.
 
 ## Melhorias Futuras
 

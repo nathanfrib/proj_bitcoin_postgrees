@@ -1,80 +1,130 @@
+
 # Monitoramento de Preços do Bitcoin
 
-Este projeto é uma aplicação em Python desenvolvida para monitorar o preço do Bitcoin utilizando a API pública da Binance. Os dados obtidos são registrados em um banco de dados SQLite3 para análise e visualização posterior.
+Uma aplicação baseada em Python que monitora o preço do Bitcoin em tempo real usando a API pública da Binance. O sistema armazena os dados de preço em um banco de dados PostgreSQL para uma gestão e análise robusta de dados.  
 
-## Funcionalidades
+!["Bitcoin ETL"](image/proj_bitcoin_postgrees.png)
 
-- **Monitoramento em Tempo Real:** Busca os preços do Bitcoin em intervalos regulares usando a API pública da Binance.
-- **Registro em Banco de Dados:** Armazena os dados de preço em um banco de dados SQLite3 para armazenamento persistente.
-- **Intervalos Configuráveis:** Permite a personalização dos intervalos de monitoramento.
+## 🚀 Funcionalidades
 
-!["Bitcoin ETL"](image/etl_bitcoin.png)
+- Monitoramento em tempo real do preço do Bitcoin via API da Binance  
+- Armazenamento de dados em nível empresarial com PostgreSQL  
+- Intervalos de monitoramento configuráveis  
+- Arquitetura de dados escalável  
+- Configuração baseada em ambiente  
 
-## Pré-requisitos
+## 📋 Pré-requisitos
 
-Antes de executar o projeto, certifique-se de ter os seguintes requisitos instalados:
+- Python 3.8+
+- Servidor PostgreSQL  
+- Pacotes necessários: 
+  - `requests`
+  - `sqlalchemy`
+  - `psycopg2-binary`
+  - `python-dotenv`
 
-- **Python 3.8+**
-- Bibliotecas Python: `requests`, `sqlite3`, `pandas`
+## 🛠️ Instalação
 
-## Instruções de Configuração
-
-### 1. Clone o Repositório
-
+1. **Clone o repositório**
 ```bash
-git clone https://github.com/nathanfrib/proj_bitcoin.git
-cd proj_bitcoin
+git clone https://github.com/nathanfrib/proj_bitcoin_postgrees.git
+cd proj_bitcoin_postgrees
 ```
 
-### 2. Instale as Dependências
-
-Crie um ambiente virtual e instale os pacotes Python necessários:
-
+2. **Configure o ambiente virtual**
 ```bash
 python -m venv .venv
-source .venv/bin/Activate  
+source .venv/bin/activate  # Linux/Mac
+# or
+.venv\Scripts\activate     # Windows
+```
+
+3. **Instale as dependências**
+```bash
 pip install -r requirements.txt
 ```
-### 3. Execute a Aplicação
 
-Inicie a aplicação com:
+4. **Configure as variáveis de ambiente**
 
+Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+
+```env
+POSTGRES_USER=your_username
+POSTGRES_PASSWORD=your_password
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_DB=bitcoin_db
+```
+
+## 💻 Como Usar
+
+1. *Certifique-se de que o PostgreSQL está em execução*
+
+2. **Inicie o sistema de monitoramento**
 ```bash
 python main.py
 ```
 
-## Como Usar
 
-1. O script buscará o preço do Bitcoin periodicamente e registrará os dados no banco de dados SQLite3.
-2. Você pode consultar o banco de dados para analisar as tendências de preço ou integrar os dados em outras aplicações.
+O aplicativo fará:
+- Criar as tabelas necessárias no banco de dados, se elas não existirem
+- Buscar os preços do Bitcoin em intervalos regulares
+- Armazenar os dados no banco de dados PostgreSQL
+- Permitir o monitoramento em tempo real do preço
 
-## Estrutura do Projeto
+## 📁 Estrutura do Projeto
 
-```plaintext
+```
 proj_bitcoin/
-├── main.py          # Script principal
-├── requirements.txt # Dependências do Python
-└── README.md        # Documentação do projeto
+├── main.py          # Script principal da aplicação
+├── database.py      # Modelos e configuração do banco de dados
+├── .env            # Variáveis de ambiente (não rastreadas no git)
+
+├── requirements.txt # Python dependencies
+└── README.md       # Project documentation
 ```
 
-## Dependências
+## 📚 Dependências
 
-O projeto utiliza as seguintes bibliotecas Python:
+- `requests`: Requisições HTTP para a API da Binance
+- `sqlalchemy`: ORM para o banco de dados
+- `psycopg2-binary`: Adaptador para o PostgreSQL
+- `python-dotenv`: Gerenciamento de variáveis de ambiente
 
-- `requests`: Para realizar requisições HTTP à API da Binance.
-- `sqlite3`: Para configurar e armazenar os dados em um banco SQL.
-- `pandas`: Para manipulação e transformação de dados.
 
-## Melhorias Futuras
+## 🔧 Esquema do Banco de Dados
 
-- Adicionar suporte para monitoramento de múltiplas criptomoedas.
-- Implementar uma interface web para visualização em tempo real dos preços.
-- Adicionar funcionalidade de alertas para mudanças significativas no preço.
+```sql
+Table: bitcoin_prices
+- timestamp (TIMESTAMP)
+- symbol (VARCHAR)
+- price (NUMERIC)
+```
 
-## Licença
+## 🔜 Melhorias Futuras
 
-Este projeto está licenciado sob a Licença MIT. Consulte o arquivo `LICENSE` para mais detalhes.
+- [ ] Suporte para múltiplas criptomoedas
+- [ ] Interface web em tempo real
+- [ ] Painel de análise avançada
+- [ ] Ferramentas de visualização de dados
+- [ ] API endpoint para acesso aos dados
 
-## Contribuições
+## 🚨 Soluções para Problemas Comuns
+- Erros de conexão com o banco de dados: Verifique o status do serviço PostgreSQL e as credenciais
+- Limites de taxa da API: Verifique as configurações de frequência de requisições
+- Falhas na inserção de dados: Certifique-se de que as permissões do banco de dados estão corretas
 
-Contribuições são bem-vindas! Por favor, faça um fork do repositório e envie um pull request para quaisquer mudanças ou melhorias.
+
+## 🤝 Contributing
+
+1. Faça um fork do repositório
+2. Crie sua branch de funcionalidade (`git checkout -b feature/NovaFuncionalidade`)
+3. Faça commit das suas alterações (`git commit -m 'Adicionando nova funcionalidade'`)
+4. Faça push para a branch (`git push origin feature/NovaFuncionalidade`)
+5. Abra um Pull Request
+
+## ✨ Suporte
+
+Se você achar este projeto útil, por favor, dê uma estrela!
+
+---

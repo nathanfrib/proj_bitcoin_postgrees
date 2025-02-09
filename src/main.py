@@ -9,6 +9,15 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify  
 import threading 
 
+app = Flask(__name__)  
+
+@app.route('/health', methods=['GET'])  
+def health_check():  
+    return jsonify({"status": "running"}), 200  
+
+def run_app():  
+    app.run(host='0.0.0.0', port=5000)  
+
 # Carrega as variáveis de ambiente
 load_dotenv()
 
@@ -25,16 +34,6 @@ DATABASE_URL = (f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}"
 # Cria o engine e a sessão
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
-
-app = Flask(__name__)  
-
-@app.route('/health', methods=['GET'])  
-def health_check():  
-    return jsonify({"status": "running"}), 200  
-
-def run_app():  
-    app.run(host='0.0.0.0', port=5000)  
-
 # Função para criar a tabela bitcoin_prices
 def criar_tabela():
     """Cria a tabela bitcoin_prices se ela não existir."""

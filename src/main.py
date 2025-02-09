@@ -6,6 +6,8 @@ from sqlalchemy.orm import sessionmaker
 from database import BitcoinPrice, Base
 import os
 from dotenv import load_dotenv
+from flask import Flask, jsonify  
+import threading 
 
 # Carrega as variáveis de ambiente
 load_dotenv()
@@ -23,6 +25,15 @@ DATABASE_URL = (f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}"
 # Cria o engine e a sessão
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
+
+app = Flask(__name__)  
+
+@app.route('/health', methods=['GET'])  
+def health_check():  
+    return jsonify({"status": "running"}), 200  
+
+def run_app():  
+    app.run(host='0.0.0.0', port=5000)  
 
 # Função para criar a tabela bitcoin_prices
 def criar_tabela():
@@ -68,6 +79,9 @@ def get_bitcoin_price_binance():
 if __name__  == "__main__":
     criar_tabela()
     print("Iniciando a coleta de dados...")
+
+    # Inicia o servidor Flask em uma thread separada  
+    threading.Thread(target=run_app).start()  
 
     while True:
         try: 

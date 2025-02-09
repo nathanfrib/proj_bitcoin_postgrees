@@ -11,12 +11,10 @@ import threading
 
 app = Flask(__name__)  
 
-@app.route('/health', methods=['GET'])  
-def health_check():  
-    return jsonify({"status": "running"}), 200  
-
-def run_app():  
-    app.run(host='0.0.0.0', port=5000)  
+# Endpoint para a rota raiz  
+@app.route('/')  
+def index():  
+    return jsonify({"message": "Hello, World! Servidor funcionando!"}), 200  
 
 # Carrega as variáveis de ambiente
 load_dotenv()
@@ -75,21 +73,27 @@ def get_bitcoin_price_binance():
         print(f"Erro ao obter o preço do Bitcoin: {response.status_code}")
         return None
 
-if __name__  == "__main__":
-    criar_tabela()
-    print("Iniciando a coleta de dados...")
+def worker():  
+    """Função que coleta dados de Bitcoin a cada 15 segundos."""  
+    while True:  
+        try:  
+            dados = get_bitcoin_price_binance()  
+            if dados:  
+                salvar_dados_no_banco(dados)  
+            else:  
+                print("Nenhum dado disponível. Aguardando 15 segundos...")  
+            time.sleep(15)  
+        except Exception as e:  
+            print(f"Erro ao coletar dados: {e}")  
+            time.sleep(15)  
 
-    # Inicia o servidor Flask em uma thread separada  
-    threading.Thread(target=run_app).start()  
+if __name__ == "__main__":  
+    criar_tabela()  
+    print("Iniciando a coleta de dados...")  
 
-    while True:
-        try: 
-            dados = get_bitcoin_price_binance()
-            if dados:
-                salvar_dados_no_banco(dados)
-            else:
-                print("Nenhum dado disponível. Aguardando 15 segundos...")
-            time.sleep(15)
-        except Exception as e:
-            print(f"Erro ao coletar dados: {e}")
-            time.sleep(15)
+    # Inicia a coleta de dados em uma thread separada  
+    data_thread = threading.Thread(target=worker)  
+    data_thread.start()  
+
+    # Executa o servidor Flask  
+    app.run(host='0.0.0.0', port=5000)  
